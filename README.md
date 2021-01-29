@@ -20,3 +20,6 @@ To run tests, run the following maven command:
 
 Individual tests can also be executed using Intellij's Run Configuration.
 The test report would be generated inside the target folder.
+
+# Sample Report:
+![alt text](https://github.com/devenbairat/HotelBookingEE/blob/master/Cluecumber-Report-All-Scenarios.png?raw=true)
