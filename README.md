@@ -15,11 +15,20 @@ The tests were implemented with project on Intellij configured to use Java versi
 This project uses Maven.
 On terminal inside the project folder, run the following maven command:
 "mvn clean install"
+
 To run tests, run the following maven command:
 "mvn test". 
 
+To generate a pretty report as shown below run the following command:
+"mvn cluecumber-report:reporting"
+
+The report will be generated in the following location:
+"../target/generated-report/index.html"
+
+Other html report can be found in the following location:
+"../target/cucumber-report.html"
+
 Individual tests can also be executed using Intellij's Run Configuration.
-The test report would be generated inside the target folder.
 
 # Sample Report
-![alt text](https://github.com/devenbairat/HotelBookingEE/blob/master/Cluecumber-Report-All-Scenarios.png?raw=true)
+![Alt text](Cluecumber-Report-All-Scenarios.png?raw=true "Title")
