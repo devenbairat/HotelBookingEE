@@ -2,8 +2,8 @@ package stepDefinitions;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.*;
-import pages.HotelBookingPage;
 import browser.BaseUtil;
+import pages.HotelBookingPage;
 import utilities.Utilities;
 
 import java.util.List;
