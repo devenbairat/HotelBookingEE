@@ -2,9 +2,7 @@ package pages;
 
 import browser.BaseUtil;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -105,8 +103,14 @@ public class HotelBookingPage extends BaseUtil {
         return this;
     }
 
-    public HotelBookingPage confirmBookingNotPresent(String uniqueId) {
-        Boolean bookingFound = wait.until(ExpectedConditions.invisibilityOfElementLocated((By.xpath(String.format(bookingRowXpath, uniqueId)))));
+    public HotelBookingPage confirmBookingNotSaved(String uniqueId) {
+        boolean bookingFound;
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath(String.format(bookingRowXpath, uniqueId)))));
+            bookingFound = true;
+        } catch (Exception e) {
+            bookingFound = false;
+        }
         Assert.assertFalse("Booking was created with invalid data", bookingFound);
         return this;
     }

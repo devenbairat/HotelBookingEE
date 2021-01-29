@@ -51,7 +51,7 @@ public class BookingStepDefinitions extends BaseUtil {
 
     @Then("the room should not be booked on the system")
     public void validate_room_not_booked() {
-        bookingPage.confirmBookingNotPresent(uniqueId);
+        bookingPage.confirmBookingNotSaved(uniqueId);
     }
 
 }
