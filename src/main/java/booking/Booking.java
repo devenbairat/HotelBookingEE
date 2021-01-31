@@ -27,30 +27,6 @@ public class Booking {
         this.uniqueId = setUniqueId();
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public void setDeposit(String deposit) {
-        this.deposit = deposit;
-    }
-
-    public void setCheckinDate(String checkinDate){
-        this.checkinDate = checkinDate;
-    }
-
-    public void setCheckoutDate(String checkoutDate){
-        this.checkoutDate = checkoutDate;
-    }
-
     public String setUniqueId() {
         return Utilities.getUniqueId();
     }

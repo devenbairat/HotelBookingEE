@@ -12,7 +12,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import utilities.Utilities;
 
 import java.util.List;
-import java.util.Map;
 
 public class HotelBookingPage extends BaseUtil {
 

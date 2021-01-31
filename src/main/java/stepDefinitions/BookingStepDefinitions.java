@@ -7,13 +7,6 @@ import browser.BaseUtil;
 import pages.HotelBookingPage;
 import utilities.Utilities;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
-
 import static booking.Booking.getBookingObject;
 
 public class BookingStepDefinitions extends BaseUtil {
