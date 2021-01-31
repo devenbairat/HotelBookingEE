@@ -1,5 +1,6 @@
 package pages;
 
+import booking.Booking;
 import browser.BaseUtil;
 import org.junit.Assert;
 import org.openqa.selenium.*;
@@ -48,7 +49,7 @@ public class HotelBookingPage extends BaseUtil {
 
     public HotelBookingPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, 15);
+        this.wait = new WebDriverWait(driver, 5);
     }
 
     public HotelBookingPage navigateToBookingPage() {
@@ -57,15 +58,13 @@ public class HotelBookingPage extends BaseUtil {
         return this;
     }
 
-    public HotelBookingPage captureBookingDetails(List<Map<String, String>> bookingDetailsMap, String uniqueId) throws Exception {
-        for (Map<String, String> columns : bookingDetailsMap) {
-            firstNameInput.sendKeys(columns.get("Firstname"));
-            lastNameInput.sendKeys(columns.get("Surname") + "_" + uniqueId);
-            totalPriceInput.sendKeys(columns.get("Price"));
-            setDepositPaid(depositSelect, columns.get("Deposit"));
-            checkInDateInput.sendKeys(Utilities.getDates(columns.get("Check-in")));
-            checkOutDateInput.sendKeys(Utilities.getDates(columns.get("Check-out")));
-        }
+    public HotelBookingPage captureBookingDetails(Booking booking) throws Exception {
+        firstNameInput.sendKeys(booking.getFirstname());
+        lastNameInput.sendKeys(booking.getSurname());
+        totalPriceInput.sendKeys(booking.getPrice());
+        setDepositPaid(depositSelect, booking.getDeposit());
+        checkInDateInput.sendKeys(Utilities.getDates(booking.getCheckinDate()));
+        checkOutDateInput.sendKeys(Utilities.getDates(booking.getCheckoutDate()));
         return this;
     }
 
@@ -74,20 +73,25 @@ public class HotelBookingPage extends BaseUtil {
         return this;
     }
 
-    public HotelBookingPage validateBooking(List<Map<String, String>> bookingDetailsMap, String uniqueId) throws Exception {
+    public HotelBookingPage validateBooking(Booking booking) throws Exception {
 
         // Wait for booking to appear on the form
+        List<WebElement> bookingRowValues = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy((By.xpath(String.format(bookingRowValuesXpath, booking.getUniqueId())))));
+
+        Assert.assertEquals(booking.getFirstname(),bookingRowValues.get(0).getText());
+        Assert.assertEquals(booking.getSurname(),bookingRowValues.get(1).getText());
+        Assert.assertEquals(booking.getPrice(),bookingRowValues.get(2).getText());
+        Assert.assertEquals(booking.getDeposit(),bookingRowValues.get(3).getText());
+        Assert.assertEquals(Utilities.getDates(booking.getCheckinDate()),bookingRowValues.get(4).getText());
+        Assert.assertEquals(Utilities.getDates(booking.getCheckoutDate()),bookingRowValues.get(5).getText());
+
+        return this;
+    }
+
+    public HotelBookingPage validatePriceOnBooking(String price, String uniqueId) {
+        // Wait for booking to appear on the form
         List<WebElement> bookingRowValues = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy((By.xpath(String.format(bookingRowValuesXpath, uniqueId)))));
-
-        for (Map<String, String> columns : bookingDetailsMap) {
-            Assert.assertEquals(columns.get("Firstname"),bookingRowValues.get(0).getText());
-            Assert.assertEquals(columns.get("Surname") + "_" + uniqueId,bookingRowValues.get(1).getText());
-            Assert.assertEquals(columns.get("Price"),bookingRowValues.get(2).getText());
-            Assert.assertEquals(columns.get("Deposit"),bookingRowValues.get(3).getText());
-            Assert.assertEquals(Utilities.getDates(columns.get("Check-in")),bookingRowValues.get(4).getText());
-            Assert.assertEquals(Utilities.getDates(columns.get("Check-out")),bookingRowValues.get(5).getText());
-        }
-
+        Assert.assertEquals(price,bookingRowValues.get(2).getText());
         return this;
     }
 

@@ -1,20 +1,26 @@
 package stepDefinitions;
 
+import booking.Booking;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.*;
 import browser.BaseUtil;
 import pages.HotelBookingPage;
 import utilities.Utilities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
+
+import static booking.Booking.getBookingObject;
 
 public class BookingStepDefinitions extends BaseUtil {
 
     BaseUtil base;
     private HotelBookingPage bookingPage;
-    private String uniqueId;
-    private List<Map<String, String>> bookingDetailsMap;
+    private Booking booking;
 
     public BookingStepDefinitions(BaseUtil base){
         super();
@@ -24,13 +30,10 @@ public class BookingStepDefinitions extends BaseUtil {
     @Given("A user requests to book a room with following details:")
     public void enter_user_booking_details(DataTable bookingDetails) throws Exception {
 
-        bookingPage       = new HotelBookingPage(base.getDriver());
-        bookingDetailsMap = bookingDetails.asMaps(String.class, String.class);
-        uniqueId          = Utilities.getUniqueId();
-
+        bookingPage  = new HotelBookingPage(base.getDriver());
+        booking      = getBookingObject(bookingDetails);
         bookingPage.navigateToBookingPage()
-                   .captureBookingDetails(bookingDetailsMap, uniqueId);
-
+                   .captureBookingDetails(booking);
     }
 
     @When("I confirm the booking for the user")
@@ -40,18 +43,24 @@ public class BookingStepDefinitions extends BaseUtil {
 
     @Then("the room should be booked on the system")
     public void validate_room_booked() throws Exception {
-        bookingPage.validateBooking(bookingDetailsMap, uniqueId);
+        bookingPage.validateBooking(booking);
+    }
+
+    @Then("the price on the booking should be set to 2 decimal places")
+    public void validate_price_is_2_decimals() {
+
+        bookingPage.validatePriceOnBooking(Utilities.setPriceTo2DecimalPlaces(booking.getPrice()), booking.getUniqueId());
     }
 
     @Then("I should be able to cancel the booking")
     public void validate_booking_cancelled() {
-        bookingPage.cancelBooking(uniqueId)
-                   .confirmBookingDeleted(uniqueId);
+        bookingPage.cancelBooking(booking.getUniqueId())
+                   .confirmBookingDeleted(booking.getUniqueId());
     }
 
     @Then("the room should not be booked on the system")
     public void validate_room_not_booked() {
-        bookingPage.confirmBookingNotSaved(uniqueId);
+        bookingPage.confirmBookingNotSaved(booking.getUniqueId());
     }
 
 }
