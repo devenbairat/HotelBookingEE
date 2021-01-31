@@ -11,6 +11,9 @@ In case of any tests failure please confirm Chrome browser and Chromedriver vers
 # Java version
 The tests were implemented with project on Intellij configured to use Java version - openjdk-11.0.2.jdk
 
+# Environment
+The tests were implemented on a MAC and was not tested on a Windows machine.
+
 # Running Tests
 This project uses Maven.
 On terminal inside the project folder, run the following maven command:
